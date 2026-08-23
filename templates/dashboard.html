@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <title>Parung Panjang Space</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons untuk ikon Instagram -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body id="body-root" class="bg-light text-dark transition-all">
+
+    <!-- Menu / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm" id="navbar-main">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">🚀 Parung Panjang Space</a>
+            <div class="d-flex align-items-center">
+                <!-- Tombol Dark Mode -->
+                <button onclick="toggleDarkMode()" class="btn btn-outline-light btn-sm me-3" id="dark-mode-btn">
+                    🌙 Dark Mode
+                </button>
+                <div class="navbar-nav">
+                    <a class="nav-link active text-white" href="/">Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner Foto Kelas -->
+    <div class="container my-4 text-center">
+        <div class="card bg-dark text-white border-0 shadow overflow-hidden">
+            <img src="{{ url_for('static', filename='foto.jpg') }}" 
+                 class="card-img" 
+                 alt="Foto Kelas" 
+                 style="height: 380px; object-fit: cover; opacity: 0.5;">
+            
+            <div class="card-img-overlay d-flex flex-column justify-content-center align-items-center">
+                <h1 class="display-4 fw-bold">Selamat Datang di profile kami</h1>
+                <p class="lead fs-4">Wadah Informasi & Profil Anggota </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daftar Siswa -->
+    <div class="container my-5">
+        <h2 class="mb-4 text-center fw-bold">Daftar Anggota</h2>
+        <div class="row">
+            {% for id, s in siswa_list.items() %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0 h-100" id="card-item-{{ id }}">
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+                        
+                        <!-- Foto Profil Siswa -->
+                        <img src="{{ url_for('static', filename=s.foto) }}" 
+                             alt="{{ s.nama }}" 
+                             class="rounded-3 mb-3 shadow-sm" 
+                             style="width: 140px; height: 160px; object-fit: cover;">
+                        
+                        <!-- Nama Siswa -->
+                        <h5 class="card-title fw-bold">{{ s.nama }}</h5>
+                        
+                        <!-- Info Hobi & Cita-cita -->
+                        <p class="card-text text-muted mb-1">🎯 <strong>Hobi:</strong> {{ s.hobi }}</p>
+                        <p class="card-text text-muted mb-2">🚀 <strong>Cita-cita:</strong> {{ s.cita_cita }}</p>
+                        
+                        <!-- Tombol Instagram (Sosial Media) -->
+                        {% if s.instagram and s.instagram != '-' %}
+                        <a href="https://instagram.com/{{ s.instagram }}" target="_blank" class="btn btn-outline-danger btn-sm mb-3 w-100">
+                            <i class="bi bi-instagram"></i> @{{ s.instagram }}
+                        </a>
+                        {% else %}
+                        <button class="btn btn-outline-secondary btn-sm mb-3 w-100" disabled>
+                            <i class="bi bi-instagram"></i> IG Tidak Tersedia
+                        </button>
+                        {% endif %}
+                        
+                        <!-- Tombol Profil -->
+                        <a href="/siswa/{{ id }}" class="btn btn-primary w-100 mt-auto">Lihat Profil</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Script JavaScript untuk Tombol Dark Mode -->
+    <script>
+        function toggleDarkMode() {
+            const body = document.getElementById('body-root');
+            const navbar = document.getElementById('navbar-main');
+            const btn = document.getElementById('dark-mode-btn');
+            
+            // Cek apakah sedang mode terang atau gelap
+            if (body.classList.contains('bg-light')) {
+                // Ubah ke Dark Mode
+                body.classList.replace('bg-light', 'bg-dark');
+                body.classList.replace('text-dark', 'text-light');
+                navbar.classList.replace('bg-primary', 'bg-black');
+                btn.innerHTML = '☀️ Light Mode';
+                btn.classList.replace('btn-outline-light', 'btn-outline-warning');
+            } else {
+                // Kembalikan ke Light Mode
+                body.classList.replace('bg-dark', 'bg-light');
+                body.classList.replace('text-light', 'text-dark');
+                navbar.classList.replace('bg-black', 'bg-primary');
+                btn.innerHTML = '🌙 Dark Mode';
+                btn.classList.replace('btn-outline-warning', 'btn-outline-light');
+            }
+        }
+    </script>
+<footer style="text-align: center; padding: 20px; background-color: #111; color: #888; font-size: 14px;">
+  <p>&copy; 2026 Parung Panjang Space. All Rights Reserved.</p>
+</footer>
+</body>
+</html>
